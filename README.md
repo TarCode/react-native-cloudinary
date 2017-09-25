@@ -1,6 +1,6 @@
 # React Native Image Upload with Cloudinary
 
-Based on [this blog post](https://tarcode.github.com/react-native-image-uploading/) 
+Based on [this blog post](https://tarcode.github.com/blog/react-native-image-uploading/) 
 
 To use: 
 
