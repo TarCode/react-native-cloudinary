@@ -56,7 +56,6 @@ export default class extends Component {
                             uploadFile(response)
                                 .then(response => response.json())
                                 .then(result => {
-                                    console.log("CLOUDINARY RESULT", result);
                                     this.setState({
                                         avatarSource: { uri: result.secure_url },
                                         uploadingImg: false
