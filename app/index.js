@@ -21,7 +21,7 @@ export default class extends Component {
                 alignItems: 'center',
                 justifyContent: "center"
             }}>
-                <Text>React Native Image Upload with Clouadinary!</Text>
+                <Text>React Native Image Upload with Cloudinary!</Text>
                 <TouchableOpacity onPress={() => {
                     var options = {
                         title: 'Select Avatar',
