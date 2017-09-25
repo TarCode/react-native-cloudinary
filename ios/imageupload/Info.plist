@@ -52,5 +52,9 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Select an existing photo for us</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take a photo for us</string>
 </dict>
 </plist>
