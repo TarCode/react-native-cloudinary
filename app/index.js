@@ -8,7 +8,7 @@ export default class extends Component {
         super(props)
         this.state = {
             avatarSource: "",
-            uploadImage: false
+            uploadingImage: false
         }
         this.submit = this.submit.bind(this)
     }
@@ -54,9 +54,13 @@ export default class extends Component {
         return (
             <View style={style.container}>
                 <Text>React Native Image Upload with Cloudinary!</Text>
-                <TouchableOpacity onPress={this.submit} style={style.imgBtn}>
-                    <Image source={this.state.avatarSource} style={style.image} />
-                </TouchableOpacity>
+                {
+                    this.state.uploadingImage ?
+                    <Text>Uploading...</Text> :
+                    <TouchableOpacity onPress={this.submit} style={style.imgBtn}>
+                        <Image source={this.state.avatarSource} style={style.image} />
+                    </TouchableOpacity>
+                }
             </View>
         )
     }
