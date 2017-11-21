@@ -3,11 +3,17 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import RNFetchBlob from 'react-native-fetch-blob'
 
+// Add your Cloudinary name here
+const YOUR_CLOUDINARY_NAME = "your_cloudinary_name"
+
+// If you dont't hacve a preset id, head over to cloudinary and create a preset, and add the id below
+const YOUR_CLOUDINARY_PRESET = "your_cloudinary_preset"
+
 export default class extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            avatarSource: "",
+            avatarSource: null,
             uploadingImage: false
         }
         this.submit = this.submit.bind(this)
@@ -22,11 +28,9 @@ export default class extends Component {
             }
         };
 
-        this.setState({
-            uploadingImg: true
-        });
-
         ImagePicker.showImagePicker(options, (response) => {
+
+
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             }
@@ -37,7 +41,10 @@ export default class extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-
+                let source = { uri: response.uri };
+                this.setState({
+                    uploadingImg: true
+                });
                 uploadFile(response)
                     .then(response => response.json())
                     .then(result => {
@@ -46,6 +53,7 @@ export default class extends Component {
                             uploadingImg: false
                         });
                     })
+
             }
         });
     }
@@ -53,12 +61,16 @@ export default class extends Component {
     render() {
         return (
             <View style={style.container}>
-                <Text>React Native Image Upload with Cloudinary!</Text>
+                <Text style={style.header}>React Native Image Upload with Cloudinary!</Text>
                 {
-                    this.state.uploadingImage ?
+                    this.state.uploadingImg ?
                     <Text>Uploading...</Text> :
                     <TouchableOpacity onPress={this.submit} style={style.imgBtn}>
-                        <Image source={this.state.avatarSource} style={style.image} />
+                        {
+                            this.state.avatarSource ?
+                                <Image source={this.state.avatarSource} style={style.image} /> :
+                                null
+                        }
                     </TouchableOpacity>
                 }
             </View>
@@ -67,7 +79,7 @@ export default class extends Component {
 }
 
 function uploadFile(file) {
-    return RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/yourcloudinaryname/image/upload?upload_preset=yourcloudinarypreset', {
+    return RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/' + YOUR_CLOUDINARY_NAME + '/image/upload?upload_preset=' + YOUR_CLOUDINARY_PRESET, {
         'Content-Type': 'multipart/form-data'
     }, [
             { name: 'file', filename: file.fileName, data: RNFetchBlob.wrap(file.origURL) }
@@ -75,9 +87,15 @@ function uploadFile(file) {
 }
 
 const style = StyleSheet.create({
+    header: {
+        position: 'relative',
+        top: -70,
+        fontWeight: 'bold',
+        fontSize: 20,
+        textAlign: 'center'
+    },
     container: {
         flex: 1,
-        flexDirection: 'column',
         backgroundColor: "#FAFAFA",
         alignItems: 'center',
         justifyContent: "center"
